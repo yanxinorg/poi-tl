@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
 
+import com.deepoove.poi.exception.ExpressionEvalException;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -70,6 +71,11 @@ public class SpELRenderDataCompute implements RenderDataCompute {
                     // ignore
                 }
             }
+			
+			if ( el.equals("") ) {
+				throw new ExpressionEvalException("Error EL fomart: " + el);
+			}
+			
             return parser.parseExpression(el).getValue(context);
         } catch (Exception e) {
             if (isStrict) throw e;
